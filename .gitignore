@@ -1,0 +1,54 @@
+# ===========================
+# Backend — Java / Maven
+# ===========================
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# Spring Boot
+backend/src/main/resources/application-dev.yml
+backend/src/main/resources/application-dev.yaml
+backend/src/main/resources/application-prod.yml
+backend/src/main/resources/application-prod.yaml
+
+# ===========================
+# Frontend — Node.js / React
+# ===========================
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# ===========================
+# Environment / Secrets
+# ===========================
+.env
+.env.local
+.env.*.local
+
+# ===========================
+# IDE — IntelliJ
+# ===========================
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# IDE — VS Code
+.vscode/
+
+# ===========================
+# OS
+# ===========================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ===========================
+# Docker
+# ===========================
+docker-compose.override.yml
