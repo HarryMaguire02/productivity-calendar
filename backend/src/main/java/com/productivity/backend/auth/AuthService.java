@@ -4,6 +4,8 @@ package com.productivity.backend.auth;
 import com.productivity.backend.auth.dto.AuthResponse;
 import com.productivity.backend.auth.dto.LoginRequest;
 import com.productivity.backend.auth.dto.RegisterRequest;
+import com.productivity.backend.auth.exception.EmailAlreadyExistsException;
+import com.productivity.backend.auth.exception.InvalidCredentialsException;
 import com.productivity.backend.entity.User;
 import com.productivity.backend.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ public class AuthService {
 
     public AuthResponse register (RegisterRequest registerRequest) {
         if (userRepository.existsByEmail(registerRequest.email())) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new EmailAlreadyExistsException(registerRequest.email());
         }
 
         User user = new User();
@@ -36,9 +38,9 @@ public class AuthService {
     }
 
     public AuthResponse login (LoginRequest loginRequest) {
-        User user = userRepository.findByEmail(loginRequest.email()).orElseThrow(() -> new IllegalArgumentException("Invalid credentials"));
+        User user = userRepository.findByEmail(loginRequest.email()).orElseThrow(InvalidCredentialsException::new);
         if (!passwordEncoder.matches(loginRequest.password(), user.getPasswordHash())) {
-            throw new IllegalArgumentException("Invalid credentials");
+            throw new InvalidCredentialsException();
         }
         String token = jwtService.generateToken(user.getId(),user.getEmail());
         return new AuthResponse(token, user.getEmail(), user.getName());
