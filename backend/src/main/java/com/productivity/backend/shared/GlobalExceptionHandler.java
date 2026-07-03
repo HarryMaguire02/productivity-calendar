@@ -1,7 +1,10 @@
 package com.productivity.backend.shared;
 
+import com.productivity.backend.actual.exception.ActualEventNotFoundException;
 import com.productivity.backend.auth.exception.EmailAlreadyExistsException;
 import com.productivity.backend.auth.exception.InvalidCredentialsException;
+import com.productivity.backend.calendar.exception.EventNotFoundException;
+import com.productivity.backend.task.exception.TaskNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,6 +35,30 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleInvalidCredentials(InvalidCredentialsException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new ApiError("INVALID_CREDENTIALS", List.of(ex.getMessage()), Instant.now()));
+    }
+
+    @ExceptionHandler(EventNotFoundException.class)
+    public ResponseEntity<ApiError> handleEventNotFound(EventNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiError("EVENT_NOT_FOUND", List.of(ex.getMessage()), Instant.now()));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest()
+                .body(new ApiError("INVALID_REQUEST", List.of(ex.getMessage()), Instant.now()));
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<ApiError> handleTaskNotFound(TaskNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiError("TASK_NOT_FOUND", List.of(ex.getMessage()), Instant.now()));
+    }
+
+    @ExceptionHandler(ActualEventNotFoundException.class)
+    public ResponseEntity<ApiError> handleActualEventNotFound(ActualEventNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ApiError("ACTUAL_EVENT_NOT_FOUND", List.of(ex.getMessage()), Instant.now()));
     }
 
     @ExceptionHandler(Exception.class)
