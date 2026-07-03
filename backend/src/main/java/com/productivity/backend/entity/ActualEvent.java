@@ -37,5 +37,5 @@ public class ActualEvent extends BaseEntity {
     @JoinColumn(name = "linked_planned_event_id")
     private PlannedEvent linkedPlannedEvent;
 
-    private Integer mood;
+    private Short mood;
 }

@@ -10,9 +10,15 @@ spring:
 
 server:
   port: 8080
+  servlet:
+    context-path: /api
 
 management:
   endpoints:
     web:
       exposure:
         include: health,info,metrics
+
+app:
+  jwt:
+    expiration: 86400000
